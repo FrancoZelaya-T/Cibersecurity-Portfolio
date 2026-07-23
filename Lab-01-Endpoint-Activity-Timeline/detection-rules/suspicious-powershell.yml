@@ -1,0 +1,38 @@
+title: Suspicious PowerShell Command Line
+id: 78b2a921-0b26-42fe-8651-5311022d7706
+status: experimental
+description: Detects PowerShell execution with command-line arguments commonly associated with obfuscation, hidden execution or remote content retrieval.
+author: Franco Zelaya
+date: 2026-07-23
+
+logsource:
+    category: process_creation
+    product: windows
+
+detection:
+    selection_image:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+
+    selection_suspicious_arguments:
+        CommandLine|contains:
+            - '-EncodedCommand'
+            - '-enc '
+            - '-WindowStyle Hidden'
+            - 'Net.WebClient'
+            - 'DownloadFile'
+            - 'Invoke-WebRequest'
+
+    condition: selection_image and selection_suspicious_arguments
+
+falsepositives:
+    - Legitimate administrative PowerShell scripts
+    - Software deployment or management tools using PowerShell
+
+level: medium
+
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.t1027

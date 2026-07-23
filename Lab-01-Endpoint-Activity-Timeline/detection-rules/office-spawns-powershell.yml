@@ -1,0 +1,33 @@
+title: Microsoft Office Spawning PowerShell
+id: 83bb23e8-9c22-4f33-b55e-5bc244702e51
+status: experimental
+description: Detects Microsoft Office applications spawning PowerShell, which may indicate suspicious document-based script execution.
+author: Franco Zelaya
+date: 2026-07-23
+
+logsource:
+    category: process_creation
+    product: windows
+
+detection:
+    selection_parent:
+        ParentImage|endswith:
+            - '\EXCEL.EXE'
+            - '\WINWORD.EXE'
+            - '\POWERPNT.EXE'
+
+    selection_child:
+        Image|endswith:
+            - '\powershell.exe'
+            - '\pwsh.exe'
+
+    condition: selection_parent and selection_child
+
+falsepositives:
+    - Legitimate administrative scripts or Office automation
+
+level: high
+
+tags:
+    - attack.execution
+    - attack.t1059.001

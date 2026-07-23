@@ -1,0 +1,30 @@
+title: Executable Running from User AppData Directory
+id: 7b735501-ce49-45b7-8c69-7e7a2c5a64f5
+status: experimental
+description: Detects executable files launched from user-writable AppData directories, which may indicate suspicious payload execution.
+author: Franco Zelaya
+date: 2026-07-23
+
+logsource:
+    category: process_creation
+    product: windows
+
+detection:
+    selection:
+        Image|contains:
+            - '\AppData\Roaming\'
+            - '\AppData\Local\Temp\'
+
+        Image|endswith:
+            - '.exe'
+
+    condition: selection
+
+falsepositives:
+    - Legitimate applications installed or updated within the user profile
+    - Software installers and auto-updaters
+
+level: medium
+
+tags:
+    - attack.execution
