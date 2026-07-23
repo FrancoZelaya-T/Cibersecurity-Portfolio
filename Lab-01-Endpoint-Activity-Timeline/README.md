@@ -1,5 +1,73 @@
 # Lab 01 — Endpoint Activity Timeline
+![Status](https://img.shields.io/badge/Status-Completed-success)
+![Focus](https://img.shields.io/badge/Focus-SOC%20Investigation-blue)
+![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
+![Telemetry](https://img.shields.io/badge/Telemetry-Sysmon-orange)
+![MITRE](https://img.shields.io/badge/MITRE-ATT%26CK-red)
+![Sigma](https://img.shields.io/badge/Detection-Sigma-purple)
 
+**SOC investigation of a suspicious Windows endpoint involving Office → PowerShell execution, outbound communication, payload execution and registry persistence.**
+
+---
+
+## Case at a Glance
+
+| Item | Details |
+|---|---|
+| Host | `WS-023` |
+| User | `j.perez` |
+| Severity | **HIGH** |
+| Initial Artifact | `Factura_1023.xls` |
+| Main Telemetry | Sysmon |
+| Key Behaviors | PowerShell, Network Activity, AppData Execution, Registry Persistence |
+| Detection Engineering | 4 validated Sigma rules |
+| Sigma Validation | `0 errors / 0 condition errors / 0 issues` |
+
+---
+
+## Attack Flow
+
+```text
+Factura_1023.xls
+        │
+        ▼
+    EXCEL.EXE
+        │
+        ▼
+   powershell.exe
+   (obfuscated)
+        │
+        ▼
+cdn-check[.]com:443
+        │
+        ▼
+   updater.exe
+ created in AppData
+        │
+        ▼
+   updater.exe
+     executed
+        │
+        ▼
+HKCU Run Key Persistence
+## Contents
+
+- [Overview](#overview)
+- [Scenario](#scenario)
+- [Executive Summary](#executive-summary)
+- [Data Sources](#data-sources)
+- [Raw Event Timeline](#raw-event-timeline)
+- [Investigation](#investigation)
+- [Indicators of Compromise (IOCs)](#indicators-of-compromise-iocs)
+- [Indicators of Attack (IOAs)](#indicators-of-attack-ioas)
+- [MITRE ATT&CK Mapping](#mitre-attck-mapping)
+- [Incident Severity](#incident-severity)
+- [Incident Response Actions](#incident-response-actions)
+- [Detection Rules](#detection-rules)
+- [Final Incident Conclusion](#final-incident-conclusion)
+- [Skills Demonstrated](#skills-demonstrated)
+
+---
 ## Overview
 
 This laboratory simulates the investigation of suspicious activity detected on a Windows endpoint.
