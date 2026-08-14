@@ -40,9 +40,11 @@ La evidencia contiene tráfico de red encapsulado en Ethernet. La captura abarca
 | Tamaño promedio | `981 bytes` |
 | Bytes capturados | `11.341.372` |
 | Encapsulación | `Ethernet` |
-| Evidencia | `capturas/01-propiedades-captura.png` |
+| Evidencia | [Ver captura](capturas/01-propiedades-captura.png) |
 
 La captura fue cargada completamente en Wireshark, sin filtros de visualización aplicados y con el 100 % de los paquetes disponibles.
+
+![Propiedades generales de la captura](capturas/01-propiedades-captura.png)
 
 ## Registro del análisis
 
@@ -86,13 +88,16 @@ En el paquete 1070, correspondiente a una respuesta `QueryUserInfo`, se observó
 | Último inicio de sesión | `2024-07-29 23:39:11` |
 
 
-Evidencia:
-- `capturas/02-conversaciones-ipv4-por-bytes.png`
-- `capturas/03-endpoints-ipv4-host-principal.png`
-- `capturas/14-mac-host-principal.png`
-- `capturas/15-usuario-kerberos.png`
-- `capturas/16-netlogon-cuenta-equipo.png`
-- `capturas/17-usuario-samr.png`
+**Evidencia:**
+
+- [Conversaciones IPv4 ordenadas por bytes](capturas/02-conversaciones-ipv4-por-bytes.png)
+- [Endpoints IPv4 del host principal](capturas/03-endpoints-ipv4-host-principal.png)
+- [Dirección MAC del host principal](capturas/14-mac-host-principal.png)
+- [Cuenta de equipo identificada mediante Kerberos](capturas/15-usuario-kerberos.png)
+- [Cuenta de equipo observada mediante Netlogon](capturas/16-netlogon-cuenta-equipo.png)
+- [Usuario identificado mediante SAMR](capturas/17-usuario-samr.png)
+
+![Conversaciones IPv4 principales](capturas/02-conversaciones-ipv4-por-bytes.png)
 
 ### 2. Jerarquía de protocolos
 
@@ -124,9 +129,9 @@ En esta instancia, la predominancia de TLS no permite clasificar el tráfico com
 \*En la jerarquía de Wireshark, los valores de bytes de protocolos como IPv4 y UDP representan los bytes atribuidos a esa capa, no necesariamente el tamaño completo de los paquetes que transportan.
 
 **Evidencia:**
-- `capturas/04-jerarquia-protocolos.png`
+- [Jerarquía de protocolos](capturas/04-jerarquia-protocolos.png)
 
-
+![Jerarquía de protocolos de la captura](capturas/04-jerarquia-protocolos.png)
 
 ### 3. Análisis DNS
 
@@ -160,9 +165,11 @@ También se identificaron 14 respuestas NXDOMAIN. Ocho corresponden a consultas 
 | `www.bing.com` | `23.198.7.175` y otras | Infraestructura de Bing/Akamai |
 
 **Evidencia:**
-- `capturas/05-consultas-dns-host-principal.png`
-- `capturas/06-respuestas-dns-direcciones-ip.png`
+- [Consultas DNS del host principal](capturas/05-consultas-dns-host-principal.png)
+- [Respuestas DNS y direcciones IP](capturas/06-respuestas-dns-direcciones-ip.png)
+- [Correlación DNS entre dominios y direcciones IP](capturas/07-correlacion-dns-dominios-ip.png)
 
+![Correlación DNS de dominios y direcciones IP](capturas/07-correlacion-dns-dominios-ip.png)
 
 ### 4. Análisis HTTP
 
@@ -184,8 +191,10 @@ Aunque `ip-api.com` es un servicio legítimo, su consulta puede utilizarse como 
 | 78,007 s | `208.95.112.1` | GET | `ip-api.com/json/` | `200 OK`, JSON | Posible reconocimiento del entorno |
 
 **Evidencia:**
-- `capturas/08-solicitudes-http.png`
-- `capturas/09-http-stream-ip-api.png`
+- [Solicitudes HTTP identificadas](capturas/08-solicitudes-http.png)
+- [Flujo HTTP correspondiente a IP-API](capturas/09-http-stream-ip-api.png)
+
+![Contenido del flujo HTTP hacia IP-API](capturas/09-http-stream-ip-api.png)
 
 ### 5. Análisis TLS
 
@@ -214,7 +223,9 @@ Posteriormente se observó una conexión con `javadl-esd-secure.oracle.com`, aso
 No se identificaron mediante SNI dominios evidentemente generados, nombres aleatorios o infraestructura directamente atribuible a un servidor de comando y control. La valoración deberá complementarse con el análisis temporal de las conexiones.
 
 **Evidencia:**
-- `capturas/10-tls-client-hello-sni.png`
+- [Client Hello TLS y valores SNI](capturas/10-tls-client-hello-sni.png)
+
+![Client Hello TLS y valores SNI](capturas/10-tls-client-hello-sni.png)
 
 ### 6. Análisis de periodicidad y beaconing
 
@@ -234,8 +245,10 @@ Después de estas transferencias, el equipo consultó `ip-api.com` y realizó un
 
 
 **Evidencia:**
-- `capturas/11-io-graph-comunicaciones-relevantes.png`
-- `capturas/12-flow-graph-secuencia-principal.png`
+- [I/O Graph de las comunicaciones relevantes](capturas/11-io-graph-comunicaciones-relevantes.png)
+- [Flow Graph de la secuencia principal](capturas/12-flow-graph-secuencia-principal.png)
+
+![Flow Graph de la secuencia principal](capturas/12-flow-graph-secuencia-principal.png)
 
 ### 7. Evidencia exportada
 
@@ -255,9 +268,11 @@ Los archivos fueron conservados sin modificar dentro de la carpeta de evidencia.
 No fue posible exportar mediante HTTP los objetos transferidos desde GitHub y Maven debido a que esas comunicaciones se encuentran cifradas mediante TLS.
 
 **Evidencia:**
-- `capturas/13-objetos-http-disponibles.png`
-- `evidencia/connecttest.txt`
-- `evidencia/ip-api-response.json`
+- [Objetos HTTP disponibles para exportación](capturas/13-objetos-http-disponibles.png)
+- [Objeto exportado: connecttest.txt](evidencia/connecttest.txt)
+- [Objeto exportado: ip-api-response.json](evidencia/ip-api-response.json)
+
+![Objetos HTTP disponibles para exportación](capturas/13-objetos-http-disponibles.png)
 
 ### 8. Indicadores de compromiso y observables
 
@@ -301,9 +316,11 @@ El patrón observado es compatible con una actividad encadenada de acceso a repo
 La comunicación posterior con la infraestructura de Oracle podría indicar la obtención o actualización de componentes Java. Su relación exacta con la actividad anterior no puede confirmarse exclusivamente mediante la evidencia de red disponible.
 
 **Evidencia:**
-- `capturas/12-flow-graph-secuencia-principal.png`
-- `capturas/17-usuario-samr.png`
-- `capturas/18-timeline-eventos-principales.png`
+- [Flow Graph de la secuencia principal](capturas/12-flow-graph-secuencia-principal.png)
+- [Usuario identificado mediante SAMR](capturas/17-usuario-samr.png)
+- [Timeline de eventos principales](capturas/18-timeline-eventos-principales.png)
+
+![Timeline de eventos principales](capturas/18-timeline-eventos-principales.png)
 
 ### 10. Evaluación y respuesta SOC
 
